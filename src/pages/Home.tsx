@@ -18,6 +18,25 @@ export default function Home() {
         console.log('[Rive] loaded, canvas=', canvas.width, 'x', canvas.height)
         r.resizeDrawingSurfaceToCanvas()
         console.log('[Rive] after resize, canvas=', canvas.width, 'x', canvas.height)
+
+        const inputs = r.stateMachineInputs('State Machine 1')
+        console.log('[Rive] SM inputs:', inputs)
+        inputs?.forEach((i) =>
+          console.log('  -', i.name, 'type=', i.type, 'value=', i.value),
+        )
+
+        setTimeout(() => {
+          console.log('[Rive] forcing pointerMove(200, 100)')
+          ;(r as unknown as { pointerMove: (x: number, y: number) => void }).pointerMove(200, 100)
+          setTimeout(() => {
+            console.log('[Rive] forcing pointerDown(200, 100)')
+            ;(r as unknown as { pointerDown: (x: number, y: number) => void }).pointerDown(200, 100)
+            setTimeout(() => {
+              console.log('[Rive] forcing pointerUp(200, 100)')
+              ;(r as unknown as { pointerUp: (x: number, y: number) => void }).pointerUp(200, 100)
+            }, 500)
+          }, 500)
+        }, 1000)
       },
       onStateChange: (e) => console.log('[Rive] state →', e.data),
     })
