@@ -3,18 +3,22 @@
   cursor: pointer;
   border-radius: 8px;
   overflow: hidden;
-  background: #111;
+  background: #111111;
+  position: relative;
 }
 
+/* Absolute fill so canvas always gets correct dimensions regardless of
+   how the browser computes height inside an aspect-ratio container */
 .canvas {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  display: block;
 }
 
 .empty {
   aspect-ratio: 1;
   border-radius: 8px;
-  background: #111;
+  background: #111111;
   opacity: 0.3;
 }
