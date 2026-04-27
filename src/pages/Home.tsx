@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { interactions, type Interaction } from '../data/interactions'
-import InteractionCard from '../components/InteractionCard'
+import RiveTile from '../components/RiveTile'
 import InteractionModal from '../components/InteractionModal'
 import styles from './Home.module.css'
 
@@ -11,7 +11,7 @@ export default function Home() {
     <div className={styles.page}>
       <div className={styles.grid}>
         {interactions.map(i => (
-          <InteractionCard
+          <RiveTile
             key={i.id}
             interaction={i}
             onClick={() => setSelected(i)}

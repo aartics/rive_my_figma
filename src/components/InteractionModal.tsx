@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-import { useRive, Layout, Fit, Alignment } from '@rive-app/react-canvas'
 import type { Interaction } from '../data/interactions'
 import styles from './InteractionModal.module.css'
 
@@ -23,32 +22,14 @@ export default function InteractionModal({ interaction, onClose }: Props) {
     <div className={styles.overlay} onClick={onClose}>
       <div className={styles.modal} onClick={e => e.stopPropagation()}>
         <button className={styles.close} onClick={onClose} aria-label="Close">✕</button>
-
-        <div className={styles.canvas}>
-          <RiveEmbed rivFile={interaction.rivFile!} />
-        </div>
-
-        <div className={styles.body}>
-          <h2 className={styles.title}>{interaction.title}</h2>
-          {interaction.note && (
-            <p className={styles.note}>{interaction.note}</p>
-          )}
-          <div className={styles.tags}>
-            {interaction.tags.map(tag => (
-              <span key={tag} className={styles.tag}>{tag}</span>
-            ))}
-          </div>
+        <h2 className={styles.title}>{interaction.title}</h2>
+        {interaction.note && <p className={styles.note}>{interaction.note}</p>}
+        <div className={styles.tags}>
+          {interaction.tags.map(tag => (
+            <span key={tag} className={styles.tag}>{tag}</span>
+          ))}
         </div>
       </div>
     </div>
   )
-}
-
-function RiveEmbed({ rivFile }: { rivFile: string }) {
-  const { RiveComponent } = useRive({
-    src: `/rive_my_figma/rive/${rivFile}`,
-    autoplay: true,
-    layout: new Layout({ fit: Fit.Contain, alignment: Alignment.Center }),
-  })
-  return <RiveComponent className={styles.rive} />
 }

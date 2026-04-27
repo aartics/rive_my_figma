@@ -39,7 +39,7 @@ export default function InteractionCard({ interaction, onClick }: Props) {
             {statusLabel[interaction.status]}
           </span>
         </div>
-        <p className={styles.desc}>{interaction.description}</p>
+        {interaction.note && <p className={styles.desc}>{interaction.note}</p>}
         <div className={styles.tags}>
           {interaction.tags.map(tag => (
             <span key={tag} className={styles.tag}>{tag}</span>
