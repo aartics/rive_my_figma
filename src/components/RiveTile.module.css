@@ -1,20 +1,7 @@
 .tile {
-  aspect-ratio: 1;
-  cursor: pointer;
-  border-radius: 8px;
-  overflow: hidden;
-  background: #111111;
-  display: flex;
-}
-
-/* Target the canvas directly so we're certain it stretches,
-   regardless of whether RiveComponent adds a wrapper element */
-.canvas,
-.canvas canvas {
-  flex: 1;
   display: block;
-  width: 100%;
-  height: 100%;
+  border-radius: 8px;
+  background: #111111;
 }
 
 .empty {
