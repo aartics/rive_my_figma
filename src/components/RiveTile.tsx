@@ -1,4 +1,5 @@
-import { useRive, useStateMachineInput, Layout, Fit, Alignment } from '@rive-app/react-canvas'
+import { useEffect } from 'react'
+import { useRive, Layout, Fit, Alignment } from '@rive-app/react-canvas'
 import type { Interaction } from '../data/interactions'
 import styles from './RiveTile.module.css'
 
@@ -15,32 +16,22 @@ export default function RiveTile({ interaction, onClick }: Props) {
 }
 
 function LiveTile({ interaction, onClick }: Props) {
-  const sm = interaction.stateMachine ?? 'State Machine 1'
-
   const { rive, RiveComponent } = useRive({
     src: `/rive_my_figma/rive/${interaction.rivFile}`,
-    stateMachines: sm,
+    stateMachines: interaction.stateMachine ?? 'State Machine 1',
     autoplay: true,
     layout: new Layout({ fit: Fit.Contain, alignment: Alignment.Center }),
   })
 
-  // Rive's "pointer enter" listener sets isHovered = true automatically.
-  // There is no "pointer exit" listener, so we reset it manually on leave.
-  // There are no pointer down/up listeners so isPressed is fully manual.
-  const isHovered = useStateMachineInput(rive, sm, 'isHovered')
-  const isPressed = useStateMachineInput(rive, sm, 'isPressed')
+  // Sync the Rive drawing surface to the actual CSS-rendered canvas size.
+  // Without this, Rive's internal buffer may differ from what's displayed,
+  // making pointer hit-detection fire at wrong coordinates (or not at all).
+  useEffect(() => {
+    if (rive) rive.resizeDrawingSurfaceToCanvas()
+  }, [rive])
 
   return (
-    <div
-      className={styles.tile}
-      onClick={onClick}
-      onMouseLeave={() => {
-        if (isHovered) isHovered.value = false
-        if (isPressed) isPressed.value = false
-      }}
-      onMouseDown={() => { if (isPressed) isPressed.value = true }}
-      onMouseUp={() => { if (isPressed) isPressed.value = false }}
-    >
+    <div className={styles.tile} onClick={onClick}>
       <RiveComponent className={styles.canvas} />
     </div>
   )

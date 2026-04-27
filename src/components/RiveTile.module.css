@@ -4,14 +4,15 @@
   border-radius: 8px;
   overflow: hidden;
   background: #111111;
-  position: relative;
+  display: flex;
 }
 
-/* Absolute fill so canvas always gets correct dimensions regardless of
-   how the browser computes height inside an aspect-ratio container */
-.canvas {
-  position: absolute;
-  inset: 0;
+/* Target the canvas directly so we're certain it stretches,
+   regardless of whether RiveComponent adds a wrapper element */
+.canvas,
+.canvas canvas {
+  flex: 1;
+  display: block;
   width: 100%;
   height: 100%;
 }
