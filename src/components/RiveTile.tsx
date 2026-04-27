@@ -1,4 +1,4 @@
-import { useRive, useStateMachineInput, Layout, Fit, Alignment } from '@rive-app/react-canvas'
+import { useRive, Layout, Fit, Alignment } from '@rive-app/react-canvas'
 import type { Interaction } from '../data/interactions'
 import styles from './RiveTile.module.css'
 
@@ -16,30 +16,15 @@ export default function RiveTile({ interaction, onClick }: Props) {
 }
 
 function LiveTile({ interaction, onClick }: Props) {
-  const sm = interaction.stateMachine ?? 'State Machine 1'
-
-  const { rive, RiveComponent } = useRive({
+  const { RiveComponent } = useRive({
     src: `/rive_my_figma/rive/${interaction.rivFile}`,
-    stateMachines: sm,
+    stateMachines: interaction.stateMachine ?? 'State Machine 1',
     autoplay: true,
     layout: new Layout({ fit: Fit.Contain, alignment: Alignment.Center }),
   })
 
-  const isHovered = useStateMachineInput(rive, sm, 'isHovered')
-  const isPressed = useStateMachineInput(rive, sm, 'isPressed')
-
   return (
-    <div
-      className={styles.tile}
-      onClick={onClick}
-      onMouseEnter={() => { if (isHovered) isHovered.value = true }}
-      onMouseLeave={() => {
-        if (isHovered) isHovered.value = false
-        if (isPressed) isPressed.value = false
-      }}
-      onMouseDown={() => { if (isPressed) isPressed.value = true }}
-      onMouseUp={() => { if (isPressed) isPressed.value = false }}
-    >
+    <div className={styles.tile} onClick={onClick}>
       <RiveComponent className={styles.canvas} />
     </div>
   )
