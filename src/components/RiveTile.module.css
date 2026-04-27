@@ -1,9 +1,9 @@
 .tile {
+  width: 100%;
   aspect-ratio: 1;
-  cursor: pointer;
   border-radius: 8px;
   overflow: hidden;
-  background: #111;
+  background: #111111;
 }
 
 .canvas {
@@ -13,8 +13,9 @@
 }
 
 .empty {
+  width: 100%;
   aspect-ratio: 1;
   border-radius: 8px;
-  background: #111;
+  background: #111111;
   opacity: 0.3;
 }
