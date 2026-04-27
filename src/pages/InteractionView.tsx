@@ -39,7 +39,7 @@ function RivePlayer({ interaction }: { interaction: (typeof interactions)[number
 
       <div className={styles.info}>
         <h1 className={styles.title}>{interaction.title}</h1>
-        <p className={styles.desc}>{interaction.description}</p>
+        {interaction.note && <p className={styles.desc}>{interaction.note}</p>}
 
         <div className={styles.tags}>
           {interaction.tags.map(tag => (
