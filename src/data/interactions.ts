@@ -3,20 +3,22 @@ export interface Interaction {
   title: string
   description: string
   tags: string[]
-  rivFile?: string   // path relative to public/rive/
+  rivFile?: string
   status: 'live' | 'wip' | 'planned'
   date: string
+  note?: string
 }
 
 export const interactions: Interaction[] = [
   {
-    id: 'button-press',
-    title: 'Button Press',
-    description: 'A satisfying springy button with press state, hover glow, and idle bounce — the hello world of Rive.',
-    tags: ['button', 'spring', 'micro-interaction'],
-    rivFile: 'button-press.riv',
-    status: 'planned',
-    date: '2026-05',
+    id: 'first-button',
+    title: 'First Button',
+    description: 'A Rive button — ugly, proud, and fully mine.',
+    note: "This is my first Rive button ✦ It taught me how to bind data to the view model and hook up the state machine. It's not pretty, but it works, and that's the whole point.",
+    tags: ['button', 'state machine', 'view model', '#1'],
+    rivFile: 'firstbutton.riv',
+    status: 'live',
+    date: '2026-04',
   },
   {
     id: 'toggle-switch',

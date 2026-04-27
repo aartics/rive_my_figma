@@ -1,9 +1,9 @@
-import { Link } from 'react-router-dom'
 import type { Interaction } from '../data/interactions'
 import styles from './InteractionCard.module.css'
 
 interface Props {
   interaction: Interaction
+  onClick?: () => void
 }
 
 const statusLabel: Record<Interaction['status'], string> = {
@@ -12,15 +12,21 @@ const statusLabel: Record<Interaction['status'], string> = {
   planned: 'planned',
 }
 
-export default function InteractionCard({ interaction }: Props) {
+export default function InteractionCard({ interaction, onClick }: Props) {
   const isClickable = interaction.status === 'live'
 
-  const card = (
-    <div className={`${styles.card} ${isClickable ? styles.clickable : ''}`}>
+  return (
+    <div
+      className={`${styles.card} ${isClickable ? styles.clickable : ''}`}
+      onClick={isClickable ? onClick : undefined}
+      role={isClickable ? 'button' : undefined}
+      tabIndex={isClickable ? 0 : undefined}
+      onKeyDown={isClickable && onClick ? e => e.key === 'Enter' && onClick() : undefined}
+    >
       <div className={styles.preview}>
         <div className={styles.previewInner}>
           {isClickable ? (
-            <span className={styles.playHint}>view →</span>
+            <span className={styles.playHint}>open →</span>
           ) : (
             <span className={styles.placeholder}>{interaction.status === 'wip' ? '🚧' : '📐'}</span>
           )}
@@ -42,8 +48,4 @@ export default function InteractionCard({ interaction }: Props) {
       </div>
     </div>
   )
-
-  return isClickable ? (
-    <Link to={`/interaction/${interaction.id}`}>{card}</Link>
-  ) : card
 }
