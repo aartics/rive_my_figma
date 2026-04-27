@@ -1,4 +1,4 @@
-import { useRive } from '@rive-app/react-webgl2'
+import { useRive } from '@rive-app/react-canvas'
 import type { Interaction } from '../data/interactions'
 import styles from './RiveTile.module.css'
 
@@ -14,10 +14,17 @@ export default function RiveTile({ interaction }: Props) {
 }
 
 function LiveTile({ interaction }: Props) {
+  const stateMachine = interaction.stateMachine ?? 'State Machine 1'
   const { RiveComponent } = useRive({
     src: `/rive_my_figma/rive/${interaction.rivFile}`,
-    stateMachines: interaction.stateMachine ?? 'State Machine 1',
+    stateMachines: stateMachine,
     autoplay: true,
+    onLoad: () => {
+      console.log('[Rive] loaded', interaction.rivFile, 'sm=', stateMachine)
+    },
+    onStateChange: (event) => {
+      console.log('[Rive] state change', interaction.rivFile, event.data)
+    },
   })
 
   return (
