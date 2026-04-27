@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useRive } from '@rive-app/react-canvas'
+import { useRive } from '@rive-app/react-webgl2'
 import type { Interaction } from '../data/interactions'
 import styles from './RiveTile.module.css'
 
@@ -21,11 +21,7 @@ function LiveTile({ interaction }: Props) {
     autoplay: true,
   })
 
-  // Sync the Rive drawing buffer to the canvas's CSS-rendered size, both at
-  // load time and on any layout/window change. Without this, the canvas keeps
-  // its default 300x150 buffer while CSS scales the visible canvas to whatever
-  // size the grid hands it — pointer hit-detection then fires at the wrong
-  // coordinates (or outside any listener's bounds entirely).
+  // Sync the Rive drawing buffer to the canvas's CSS-rendered size.
   useEffect(() => {
     if (!rive) return
     rive.resizeDrawingSurfaceToCanvas()
@@ -34,10 +30,11 @@ function LiveTile({ interaction }: Props) {
     return () => window.removeEventListener('resize', onResize)
   }, [rive])
 
+  // The wrapper div is sized first via CSS so the canvas mounts into a
+  // non-zero container — the docs note the canvas starts at 0x0 otherwise.
   return (
-    <RiveComponent
-      className={styles.tile}
-      style={{ width: '100%', aspectRatio: '1' }}
-    />
+    <div className={styles.tile}>
+      <RiveComponent className={styles.canvas} />
+    </div>
   )
 }
