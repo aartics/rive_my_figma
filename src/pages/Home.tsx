@@ -22,26 +22,34 @@ export default function Home() {
           animator: { stateMachines: Array<{ instance: unknown; playing: boolean }> }
           runtime: { hasListeners: (smInstance: unknown) => boolean }
           eventCleanup: unknown
+          setupRiveListeners: () => void
         }
         const sm = anyR.animator.stateMachines[0]
         console.log('[Rive] sm.playing=', sm.playing)
         console.log('[Rive] runtime.hasListeners(sm)=', anyR.runtime.hasListeners(sm.instance))
-        console.log('[Rive] eventCleanup is function?', typeof anyR.eventCleanup === 'function')
+        console.log('[Rive] eventCleanup BEFORE manual setup:', typeof anyR.eventCleanup)
+
+        anyR.setupRiveListeners()
+        console.log('[Rive] eventCleanup AFTER manual setup:', typeof anyR.eventCleanup)
 
         canvas.addEventListener('mousemove', (e) => {
           console.log('[canvas] mousemove client=', e.clientX, e.clientY)
         })
 
         setTimeout(() => {
-          console.log('[SM] manual pointerMove(120, 32) — artboard center')
-          const smInst = sm.instance as { pointerMove: (x: number, y: number) => void; pointerDown: (x: number, y: number) => void; pointerUp: (x: number, y: number) => void }
-          smInst.pointerMove(120, 32)
+          console.log('[SM] manual pointerMove(120, 32, 0)')
+          const smInst = sm.instance as {
+            pointerMove: (x: number, y: number, id: number) => void
+            pointerDown: (x: number, y: number, id: number) => void
+            pointerUp: (x: number, y: number, id: number) => void
+          }
+          smInst.pointerMove(120, 32, 0)
           setTimeout(() => {
-            console.log('[SM] manual pointerDown(120, 32)')
-            smInst.pointerDown(120, 32)
+            console.log('[SM] manual pointerDown(120, 32, 0)')
+            smInst.pointerDown(120, 32, 0)
             setTimeout(() => {
-              console.log('[SM] manual pointerUp(120, 32)')
-              smInst.pointerUp(120, 32)
+              console.log('[SM] manual pointerUp(120, 32, 0)')
+              smInst.pointerUp(120, 32, 0)
             }, 500)
           }, 500)
         }, 1000)
