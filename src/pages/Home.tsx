@@ -17,23 +17,31 @@ export default function Home() {
       onLoad: () => {
         console.log('[Rive] loaded, canvas=', canvas.width, 'x', canvas.height)
         r.resizeDrawingSurfaceToCanvas()
-        console.log('[Rive] after resize, canvas=', canvas.width, 'x', canvas.height)
 
-        const inputs = r.stateMachineInputs('State Machine 1')
-        console.log('[Rive] SM inputs:', inputs)
-        inputs?.forEach((i) =>
-          console.log('  -', i.name, 'type=', i.type, 'value=', i.value),
-        )
+        const anyR = r as unknown as {
+          animator: { stateMachines: Array<{ instance: unknown; playing: boolean }> }
+          runtime: { hasListeners: (smInstance: unknown) => boolean }
+          eventCleanup: unknown
+        }
+        const sm = anyR.animator.stateMachines[0]
+        console.log('[Rive] sm.playing=', sm.playing)
+        console.log('[Rive] runtime.hasListeners(sm)=', anyR.runtime.hasListeners(sm.instance))
+        console.log('[Rive] eventCleanup is function?', typeof anyR.eventCleanup === 'function')
+
+        canvas.addEventListener('mousemove', (e) => {
+          console.log('[canvas] mousemove client=', e.clientX, e.clientY)
+        })
 
         setTimeout(() => {
-          console.log('[Rive] forcing pointerMove(200, 100)')
-          ;(r as unknown as { pointerMove: (x: number, y: number) => void }).pointerMove(200, 100)
+          console.log('[SM] manual pointerMove(120, 32) — artboard center')
+          const smInst = sm.instance as { pointerMove: (x: number, y: number) => void; pointerDown: (x: number, y: number) => void; pointerUp: (x: number, y: number) => void }
+          smInst.pointerMove(120, 32)
           setTimeout(() => {
-            console.log('[Rive] forcing pointerDown(200, 100)')
-            ;(r as unknown as { pointerDown: (x: number, y: number) => void }).pointerDown(200, 100)
+            console.log('[SM] manual pointerDown(120, 32)')
+            smInst.pointerDown(120, 32)
             setTimeout(() => {
-              console.log('[Rive] forcing pointerUp(200, 100)')
-              ;(r as unknown as { pointerUp: (x: number, y: number) => void }).pointerUp(200, 100)
+              console.log('[SM] manual pointerUp(120, 32)')
+              smInst.pointerUp(120, 32)
             }, 500)
           }, 500)
         }, 1000)
