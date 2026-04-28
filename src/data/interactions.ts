@@ -21,6 +21,15 @@ export const interactions: Interaction[] = [
     date: '2026-04',
   },
   {
+    id: 'chibi-loader',
+    title: 'Chibi Loader',
+    tags: ['loader', 'loop', 'animation'],
+    rivFile: 'chibi-loader.riv',
+    stateMachine: 'State Machine 1',
+    status: 'live',
+    date: '2026-04',
+  },
+  {
     id: 'toggle-switch',
     title: 'Toggle Switch',
     tags: ['toggle', 'state machine', 'form'],
