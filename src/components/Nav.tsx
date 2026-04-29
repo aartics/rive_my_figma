@@ -8,9 +8,6 @@ export default function Nav() {
         rive_my_figma
       </NavLink>
       <nav className={styles.links}>
-        <NavLink to="/" end className={({ isActive }) => isActive ? styles.active : ''}>
-          home
-        </NavLink>
         <NavLink to="/gallery" className={({ isActive }) => isActive ? styles.active : ''}>
           gallery
         </NavLink>
