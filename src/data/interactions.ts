@@ -30,6 +30,15 @@ export const interactions: Interaction[] = [
     date: '2026-04',
   },
   {
+    id: 'cloner-effect-copy-twist',
+    title: 'Cloner Effect — Copy Twist',
+    tags: ['cloner', 'animation', 'motion'],
+    rivFile: 'cloner-effect-copy-twist.riv',
+    stateMachine: 'State Machine 1',
+    status: 'live',
+    date: '2026-04',
+  },
+  {
     id: 'toggle-switch',
     title: 'Toggle Switch',
     tags: ['toggle', 'state machine', 'form'],
